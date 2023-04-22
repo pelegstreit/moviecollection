@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+
 const amovie = createSlice({
     name: "amovie",
     initialState: {
@@ -12,7 +13,6 @@ const amovie = createSlice({
         errorMessage: '',
     },
     reducers: {
-      
         fetchMoviesStarted: (state) => {
             state.isLoading = true;
           },
@@ -35,8 +35,6 @@ const amovie = createSlice({
             console.log("images:",action.payload);
             state.images = action.payload;
           },
-         
-
         setInitialMovies: (state, action) => {
             // console.log("setInitialMovies", action.payload.length);
             state = action.payload;
@@ -98,9 +96,6 @@ export const {
     }
   }
 
-
-  
-  
   export function convertGenres_and_checkPoster(movie) {
       let only_names_genre = [];
       for (let obj of movie.genres) {
@@ -148,23 +143,53 @@ export const {
   return actors;
 }
 export function ShowAllActors(actors){
-  for(let i=0; i<actors.length; i++ )
-    {
-        actors[i].show = true;
-    }
-    dispatch(fetchActorsReady(actors));
+  try{
+    dispatch(fetchMoviesStarted());
+    const updatedArray = actors.map((actor) => {
+      return {
+        ...actor,
+        show: true,
+      };
+    });
+    dispatch(fetchActorsReady(updatedArray));
+  // let tempArr= [];
+  // for(let i=0; i<actors.length; i++ )
+  //   {
+  //     tempArr.push(actors[i]);
+  //     tempArr[i].show = true;
+  //   }
+  
+}
+catch(err){
+  dispatch(fetchMoviesFailed(err.errorMessage));
+}
 }
 export function ShowLeadAcotrs(actors){
-  for(let i=0; i<actors.length; i++ )
-    {
-      if(i<6){
-        actors[i].show = true;
-      }
-      else{
-        actors[i].show = false;
-      }
+  // let tempArr= [];
+  // for(let i=0; i<actors.length; i++ )
+  //   {
+  //     tempArr.push(actors[i]);
+  //     if(i<6){
+  //       tempArr[i].show = true;
+  //     }
+  //     else{
+  //       tempArr[i].show = false;
+  //     }
+  //   }
+  const updatedObjectsArray = actors.map((object, index) => {
+    if (index < 6) {
+      return {
+        ...object,
+        show: true,
+      };
+    } else {
+      return {
+        ...object,
+        show: false,
+      };
     }
-  dispatch(fetchActorsReady(actors));
+  });
+  dispatch(fetchActorsReady(updatedObjectsArray));
 }
 
 

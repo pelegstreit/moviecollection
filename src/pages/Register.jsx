@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import { useSelector, useDispatch } from 'react-redux';
 import {  useState, useRef, useEffect } from 'react'
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom';
+import {Container, Form, Input, Button, Tag, Headline, Background} from "../styles/registerStyle";
+import Menu from './Menu';
 
 const Register = () => {
   const navigate= useNavigate();
@@ -27,8 +29,8 @@ console.log(name, mail, password);
 }
 useEffect(() => {console.log(myname) }, []);
   return (
- 
   <Background>
+    <Menu></Menu>
    <Container>
       <Form onSubmit={handleSubmit}>
         <Headline>Register</Headline>
@@ -46,53 +48,3 @@ useEffect(() => {console.log(myname) }, []);
 }
 
 export default Register;
-
-const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  /* background-color:white; */
-`;
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  background-color: rgba(0, 0, 0, 0.7);
-
-`;
-
-const Input = styled.input`
-  width: 100%;
-  margin: 10px 0;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  margin-bottom: 2rem;
-`;
-
-const Button = styled.button`
-  width: 100%;
-  margin: 10px 0;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  background-color: red;
-  color: white;
-`;
-const Tag= styled.div`
- color: white;
- font-size: 2rem;
-`;
-const Headline= styled.div`
- color: white;
- font-size: 4rem;
- margin-bottom: 2rem;
-`;
-const Background= styled.div`
- background-image: url('https://batterseapowerstation.co.uk/content/uploads/2022/08/Cinema-in-the-Power-Station-image001hero-1600x869.jpg');
- background-size: cover;
-`;
-

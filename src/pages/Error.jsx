@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import { FaBeer } from "react-icons/fa";
-import {Background,Maindiv,Headline} from "../styles/Error";
-
+import {Background} from "../styles/Error";
+import Menu from './Menu';
 const Error = () => {
   return (
     <Background>
+      <Menu></Menu>
   </Background>
   )
 }

@@ -19,7 +19,7 @@ fetch(Popular_endpoint )
   .then(response => response.json())
   .then(data => {
     popular_Arr = data.results;
-    console.log(data.results); // Prints an array of popular movies
+    // console.log(data.results); // Prints an array of popular movies
   })
   .catch(error => {
     console.error(error);
@@ -29,7 +29,7 @@ fetch(Popular_endpoint )
   .then(response => response.json())
   .then(data => {
     now_Arr = data.results;
-    console.log(data.results); // Prints an array of popular movies
+    // console.log(data.results); // Prints an array of popular movies
   })
   .catch(error => {
     console.error(error);
@@ -39,7 +39,7 @@ fetch(Popular_endpoint )
   .then(response => response.json())
   .then(data => {
     toprated_Arr = data.results;
-    console.log(data.results); // Prints an array of popular movies
+    // console.log(data.results); // Prints an array of popular movies
   })
   .catch(error => {
     console.error(error);
@@ -49,8 +49,8 @@ fetch(Popular_endpoint )
   fetch(Upcomoioing_endpoint)
   .then(response => response.json())
   .then(data => {
-    upcoming_Arr = data.results;
-    console.log(data.results); // Prints an array of popular movies
+    // upcoming_Arr = data.results;
+    // console.log(data.results); // Prints an array of popular movies
   })
   .catch(error => {
     console.error(error);
@@ -60,7 +60,7 @@ export async function getPopularMovies() {
   const endpoint = `https://api.themoviedb.org/3/movie/popular?api_key=8363ff1f821b3c4a310b38701890d3ba`;
   const response = await (await fetch(endpoint)).json();
   const data = response.results;
-  console.log(data);
+  // console.log(data);
   return data;
 }
 

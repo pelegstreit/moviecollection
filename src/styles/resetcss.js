@@ -26,3 +26,7 @@ const GlobalStyles = createGlobalStyle`
 `;
 
 export default GlobalStyles;
+
+// @media all and (min-width: 767px){}
+// @media all and (min-width: 990px){}
+// @media all and (min-width: 1175px){}

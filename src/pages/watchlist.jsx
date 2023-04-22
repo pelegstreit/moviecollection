@@ -3,58 +3,100 @@ import styled from "styled-components";
 import { updateMovieId } from '../state/amovie.slice';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import {fetchUserMovies} from '../state/user.slice';
+import {fetchUserMovies,ResetFullDetails,deletemovie} from '../state/user.slice';
 import { search_movie, fetch_movie} from '../state/movies.slice';
-import {Top, Logo,HomeButton, Search, Hello,MoviesButton, Git,Signin,MyWatchlist,Movies,MovieCard,Poster,Title,Votes,Genere} from "../styles/watchlistStyle";
-
+import {Background, Movies,MovieCard,Poster,Title,Votes,Genere, RemoveWatchlist} from "../styles/watchlistStyle";
+import Menu from './Menu';
 
 const Watchlist = () => {
   const dispatch = useDispatch();
   const navigate= useNavigate();
   const input = useRef(null);
+  let dispatched = true;
   const [backgroundColor, setBackgroundColor] = useState('transparent');
   const myName = useSelector((state)=> state.user.name);
   const myMovies = useSelector((state)=> state.user.movie);
-  const FullDetailedMovie =  useSelector((state)=> state.user.fullDetailsMovie);
+  const fullDetailsMovie =  useSelector((state)=> state.user.fullDetailsMovie);
   // const [userData, setUserData] = useState("");
+  let duplicated= [];
 
-
-  useEffect(() => {
-    dispatch(fetchUserMovies(myMovies));
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      if (scrollPosition > 100) {
-        setBackgroundColor("whitesmoke");
-        console.log("white");
-      } else {
-        setBackgroundColor(`transparent`);
-        console.log(`transparent`)
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    fetch("http://localhost:3030/userdata", {
-      method: "POST",
-      crossDomain: true,
+  function RemoveFromWatchList(movieID){
+    // dispatch(addNewMovie(amovie.movieId));
+    console.log("arr before deleted movie:",myMovies);
+    let copyArr=myMovies.filter((num)=> num!==movieID);
+    console.log("arr after deleted movie:",copyArr);
+    fetch("http://localhost:3030/addmovie", {
+      method: "PUT",
+      crossDomain:"true",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
         "Access-Control-Allow-Origin": "*",
       },
       body: JSON.stringify({
-        token: window.localStorage.getItem("data"),
+        token: window.localStorage.getItem("token"), movieIDObj: {"movie":copyArr}
       }),
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data, "userData"); });
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
+        // console.log(data, "addToWatchList");
+       });
+  }
+  function onlyOnce(){
+    if(dispatched){
+      dispatched= false;
+      for(let movie of myMovies){
+        console.log("movie",movie);
+        dispatch(fetchUserMovies(movie));
+      }
+    }
+  }
+   function ResetWatchListPage(id){
+    console.log("received id:", id, "mymovies:", myMovies);
+    dispatch(deletemovie(id));
+    // dispatch(ResetFullDetails());
+    console.log("action reset. now mymovies:", myMovies);
+    onlyOnce();
+  }
+
+  useEffect(() => {    
+    onlyOnce();
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      if (scrollPosition > 100) {
+        setBackgroundColor("whitesmoke");
+      } else {
+        setBackgroundColor(`transparent`);
+      }
     };
+
+    window.addEventListener("scroll", handleScroll);
+    // fetch("http://localhost:3030/userdata", {
+    //   method: "POST",
+    //   crossDomain: true,
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Accept: "application/json",
+    //     "Access-Control-Allow-Origin": "*",
+    //   },
+    //   body: JSON.stringify({
+    //     token: window.localStorage.getItem("data"),
+    //   }),
+    // })
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     console.log(data, "userData"); });
+    // return () => {
+    //   window.removeEventListener("scroll", handleScroll);
+    // };
+    
   }, []);
 
 
   useEffect(() => {
-    console.log("mymovies " + FullDetailedMovie);
+    // console.log("mymovies in watchlist page" + myMovies);
+    // console.log("fulldetails in watchlist page" + fullDetailsMovie);
+    console.log(fullDetailsMovie);
   }, [myMovies])
 
   const update_list = () => {
@@ -71,35 +113,25 @@ const Watchlist = () => {
 
 
   return (
-    <>
-     <div style={{ backgroundImage:`url(https://batterseapowerstation.co.uk/content/uploads/2022/08/Cinema-in-the-Power-Station-image001hero-1600x869.jpg)`,backgroundRepeat:"no-repeat",backgroundSize:"cover",
-  }}>
-    <Top bg={backgroundColor}>
-        <Logo src={'https://seeklogo.com/images/M/movie-time-cinema-logo-8B5BE91828-seeklogo.com.png'} onClick={() => { navigate(`/`)}}/>
-        <HomeButton>BlockBuster</HomeButton>
-        <Search ref={input} onChange={update_list} placeholder="Search by a movie title"></Search>
-        <Hello>Hello {myName}</Hello>
-        <MyWatchlist onClick={() => { navigate(`/watchlist`)}}>My watch list</MyWatchlist>
-        <MoviesButton onClick={() => { navigate(`/`)}}>📄 MOVIES</MoviesButton>
-        <Git src={'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'} onClick={() => { window.location.href ='https://github.com/pelegstreit'}}/>
-        <Signin onClick={() => { navigate(`/login`)}} >SIGN IN</Signin>
-      </Top>
+    <Background>
+ <Menu></Menu>
       <Movies>
-        {/* <ul> */}
         {
-          FullDetailedMovie?.map((obj) =>
-            <MovieCard key={obj.id} onClick={() => {dispatch(updateMovieId(obj.id));   navigate(`/movie/${obj.id}`)}}>
-              <Poster src={obj.poster_path} />
+          fullDetailsMovie?.map((obj) =>{
+          if(duplicated.includes(obj.id) === false){
+            return (
+            <MovieCard key={obj.id}>
+              <Poster src={obj.poster_path} onClick={() => {dispatch(updateMovieId(obj.id));   navigate(`/movie/${obj.id}`)}}/>
               <Title>{obj.original_title}</Title>
               <Votes>{obj.vote_average}</Votes>
               <Genere>{obj.genres}</Genere>
-            </MovieCard>
+              <RemoveWatchlist onClick={() => { RemoveFromWatchList(obj.id); ResetWatchListPage(obj.id); }}>Remove from watch list</RemoveWatchlist>
+              {/* ResetWatchListPage(obj.id); */}
+            </MovieCard>)}}
           )
         }
-        {/* </ul> */}
       </Movies>
-      </div>
-  </>
+      </Background>
   )
 }
 

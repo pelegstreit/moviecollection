@@ -1,4 +1,9 @@
 import styled from "styled-components";
+export const Background= styled.div`
+ background-image: url('https://batterseapowerstation.co.uk/content/uploads/2022/08/Cinema-in-the-Power-Station-image001hero-1600x869.jpg');
+ background-size: cover;
+ min-height: 61rem;
+`;
 export const Top = styled.div` 
 width: 100%;
 height: 100px;
@@ -105,20 +110,21 @@ letter-Spacing:1px;
 ////
 ////
 export const Movies = styled.div`
+border: 1px double red;
 width: 90%;
-height:800px;
-/* border: 1px double red; */
-font-family: "Roboto", sans-serif;
-display: flex;
-flex-wrap: wrap;
-flex-direction: row;
 margin-top: 0rem;
 padding-top: 0px;
 margin-left: 5%;
 margin-right: 5%;
+font-family: "Roboto", sans-serif;
+display: flex;
+flex-wrap: wrap;
+flex-direction: row;
+
 `;
 
 export const MovieCard = styled.div`
+border: 1px solid green;
 display: flex;
 flex-direction: column;
 margin-top: 10px;
@@ -130,9 +136,6 @@ height: auto;
 background-color: black;
 font-size: 1rem;
 cursor: pointer;
-/* border: 1px solid green; */
-
-
 &:hover{
   margin-top: 0px;
 }
@@ -164,4 +167,21 @@ margin-top: 308px;
 export const Genere = styled.div`
 font-size: 1.5rem;
 color:white
+`;
+
+export const RemoveWatchlist = styled.button`
+width: 90%;
+background-color: red;
+font-Weight:bold;
+font-size: 1rem;
+letter-Spacing:1px;
+color:white;
+padding: 4px;
+border-Radius:5px;
+border:none;
+cursor:pointer;
+margin-right:10px;
+margin-left: 10px;
+margin-top: auto;
+margin-bottom:10px;
 `;

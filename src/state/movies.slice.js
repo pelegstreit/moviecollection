@@ -22,13 +22,13 @@ const movies = createSlice({
             state.errorMessage = "";
           },
         setInitialMovies: (state, action) => {
-            console.log("setInitialMovies", action.payload.length);
+            // console.log("setInitialMovies", action.payload.length);
             state = action.payload;
-            console.log('after assignment ', state)
+            // console.log('after assignment ', state);
         },
         getNumberofPages: (state,action) =>{
             state.pages= action.payload;
-            console.log("getNumberofPages " + action.payload);
+            // console.log("getNumberofPages " + action.payload);
         }
         // addtask: (state, action) => {state.push({"task":action.payload, "open": true, "show": true})},
         // changestat: (state,action) => {state.map((obj) => {if(obj.task===action.payload) {obj.open = !obj.open} })},
