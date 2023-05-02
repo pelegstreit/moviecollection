@@ -1,5 +1,15 @@
 import styled from "styled-components";
-///menu part
+
+export const Background= styled.div`
+ background-image: url('src/images/background1.jpg');
+ background-size: cover;
+ /* background-position: center center; */
+ background-attachment: fixed;
+ width: 100%;
+ height: 100%;
+`;
+
+///filter part
  export const Filter = styled.ul`
   list-style-type: none;
   margin: 0;
@@ -72,47 +82,84 @@ display: flex;
 flex-direction: column;
 margin-top: 10px;
 margin-bottom: 10px;
-margin-right: 1rem;
-margin-left: 1rem;
-width: 18%;
+margin-right: 25%;
+margin-left: 25%;
+width: 50%;
 height: auto;
 background-color: black;
 font-size: 1rem;
 cursor: pointer;
 /* border: 1px solid green; */
-
-
 &:hover{
   margin-top: 0px;
 }
+@media all and (min-width: 767px){
+  margin-right: 10%;
+  margin-left: 10%;
+  width: 30%;
+}
+@media all and (min-width: 990px){
+  margin-right: 5%;
+  margin-left: 5%;
+  width: 20%;
+}
+@media all and (min-width: 1175px){
+  margin-right: auto;
+  margin-left: 5rem;
+  width: 20rem;
+}
 `;
 export const Poster = styled.img`
+@media all and (min-width: 767px){}
+@media all and (min-width: 990px){}
+@media all and (min-width: 1175px){}
 `;
-
+export const FirstLine= styled.div`
+display: flex;
+flex-direction:row;
+width:100;
+height: fit-content;
+`;
 export const Title = styled.div`
 font-size: 1.8rem;
 margin-bottom: 0.5rem;
 width: 85%;
 color:white;
+@media all and (min-width: 767px){}
+@media all and (min-width: 990px){}
+@media all and (min-width: 1175px){}
 `;
 export const Votes = styled.div`
 display: flex;
 align-items: center;
 justify-content: center;
-position: absolute;
+/* position: absolute; */
 padding:0;
+border-radius: 50%;
+color: yellow;
+border: grey 2px solid;
+
 font-size: 1.2rem;
 height: 3rem;
 width: 3rem;
-border: grey 2px solid;
-border-radius: 50%;
-color: yellow;
-margin-left: 162px;
-margin-top: 308px;
+@media all and (min-width: 767px){
+font-size: 1.2rem;
+height: 3rem;
+width: 3rem;
+}
+@media all and (min-width: 990px){
+font-size: 1.2rem;
+height: 3rem;
+width: 3rem;
+}
+@media all and (min-width: 1175px){}
 `;
 export const Genere = styled.div`
 font-size: 1.5rem;
 color:white;
+@media all and (min-width: 767px){}
+@media all and (min-width: 990px){}
+@media all and (min-width: 1175px){}
 `;
 /////
 ////pagination part
@@ -139,113 +186,3 @@ export const Pagenum = styled.li`
   cursor: pointer;
 `;
 /////
-
-
-///top part
-const Top = styled.div` 
-width: 100%;
-height: 100px;
-/* font-family: "Roboto", sans-serif; */
-display: flex;
-flex-direction: row;
-/* margin-top: 1rem; */
-padding-top: 0px;
-/* border: 1px solid blue; */
-align-items: center;
-padding-left: 5%;
-padding-right: 5%;
-position: sticky;
-top: 0;
-background-color:  ${({ bg }) => bg  ? bg : bg};
-`
-const Logo = styled.img`
-width: 90px;
-height: auto;
-cursor: pointer;
-/* align-items: center; */
-
-`;
-const HomeButton = styled.button`
-font-size: 3rem;
-height: 60px;
-cursor: pointer;
-background-color: transparent;
-color: #dfdf00;
-border-color: transparent;
-font-family: 'Courgette', cursive;
-`
-const Search = styled.input`
-font-size: 4rem;
-width: 340px;
-height: 35px;
-margin-left: 20px;
-/* margin-right:400px; */
-align-items: center;
-/* border-radius: 10%; */
-border-color: transparent;
-font-size: 2rem;
-`
-const Hello = styled.div`
-font-size: 1.8rem;
-/* margin-bottom: 0.5rem; */
-/* width: 85%; */
-margin-left: 20px;
-width:30rem;
-/* border: 1px solid red; */
-color:white;
-`;
-const MoviesButton = styled.button`
-font-size: 2rem;
-/* width: 125px;
-height: 60px; */
-border-color: transparent;
-/* border:1px solid blue; */
-cursor: pointer;
-background-color: transparent;
-color: white;
-/* margin-left:100px; */
-margin-right: 20px;
-/* border: 1px solid blueviolet; */
-`
-const Git = styled.img`
- width: 50px; 
-cursor: pointer;
-background-color: transparent;
-color: white;
-margin-left:auto;
-margin-right:20px; 
-`
-const Signin = styled.button`
-font-size: 2rem;
-width: 150px;
-height: 40px;
-cursor: pointer;
-background-color: #fb5050;
-border-radius: 15%;
-border-color: transparent;
-color: white;
-margin-left:auto;
-margin-right:0;
-`
-const Watchlist = styled.button`
-/* font-size: 2rem;
-height: 40px;
-cursor: pointer;
-border-radius: 8%;
-border-color: transparent;
-color: white;
-margin-top:1rem; */
-font-size: 1.5rem;
-width: 300px;
-background-color: green;
-margin-left: 10px;
-color:white;
-padding: 4px;
-border-Radius:5px;
-border:none;
-cursor:pointer;
-font-Weight:bold;
-letter-Spacing:1px;
-margin-right:10px;
-`
-///

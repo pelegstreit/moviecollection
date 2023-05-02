@@ -18,16 +18,22 @@ background-color:  ${({ bg }) => bg  ? bg : bg};
 @media all and (min-width: 990px){}
 @media all and (min-width: 1175px){}
 `;
-export const Logo = styled.img`
-width: 7%;
+export const Logo= styled.img`
+/* background-image: url();
+background-size: cover; */
+src: url('https://seeklogo.com/images/M/movie-time-cinema-logo-8B5BE91828-seeklogo.com.png');
+width: 10%;
 height: auto;
 cursor: pointer;
-/* align-items: center; */
-@media all and (min-width: 767px){}
+border:1px solid blue;
+@media all and (min-width: 767px){
+    width: 9%;
+}
 @media all and (min-width: 990px){}
 @media all and (min-width: 1175px){}
 `;
 export const HomeButton = styled.button`
+display: none;
 font-size: 2.5rem;
 /* height: 60px; */
 cursor: pointer;
@@ -36,30 +42,37 @@ color: #dfdf00;
 border-color: transparent;
 font-family: 'Courgette', cursive;
 @media all and (min-width: 767px){}
-@media all and (min-width: 990px){}
+@media all and (min-width: 990px){
+    display: block;
+}
 @media all and (min-width: 1175px){
     font-size: 3rem;
 }
 `;
 export const Search = styled.input`
 font-size: 4rem;
-width: 34%;
+width: 40%;
 height: 35px;
-margin-left: 20px;
+margin-left: 10px;
 align-items: center;
 border-color: transparent;
 font-size: 2rem;
 @media all and (min-width: 767px){}
-@media all and (min-width: 990px){}
+@media all and (min-width: 990px){
+    width: 34%;
+    margin-left: 20px;
+}
 @media all and (min-width: 1175px){}
 `
 export const Hello = styled.div`
-font-size: 1.6rem;
+font-size: 1.9rem;
 margin-left: 20px;
 width:15%;
 color:white;
 @media all and (min-width: 767px){}
-@media all and (min-width: 990px){}
+@media all and (min-width: 990px){
+    font-size: 1.6rem;
+}
 @media all and (min-width: 1175px){
     font-size: 1.8rem;
 }
@@ -70,16 +83,19 @@ border:none;
 cursor:pointer;
 font-Weight:bold;
 color:white;
-
 font-size: 1.2rem;
-width: 20%;
-margin-left: 8px;
+width: 15%;
+height: 40px;
+margin-left: 6px;
 padding: 3px;
 border-Radius:3px;
 letter-Spacing:0.8px;
 margin-right:8px;
 @media all and (min-width: 767px){}
-@media all and (min-width: 990px){}
+@media all and (min-width: 990px){
+    width: 20%;
+    margin-left: 8px;
+}
 @media all and (min-width: 1175px){
 font-size: 1.5rem;
 width: 20%;
@@ -91,6 +107,7 @@ margin-right:10px;
 }
 `;
 export const MoviesButton = styled.button`
+display: none;
 /* border:1px solid blue; */
 border-color: transparent;
 cursor: pointer;
@@ -100,22 +117,28 @@ color: white;
 font-size: 1.5rem;
 margin-right: 20px;
 @media all and (min-width: 767px){}
-@media all and (min-width: 990px){}
+@media all and (min-width: 990px){
+    display: block;
+    
+}
 @media all and (min-width: 1175px){
 font-size: 2rem;
 margin-right: 20px;
 }
 `;
-export const Git = styled.img`
+export const Git = styled.div`
+background-image: url('src/images/GitHub.png');
+display: none;
 cursor: pointer;
-background-color: transparent;
+/* background-color: transparent; */
 color: white;
 margin-left:auto;
-
 width: 4%; 
 margin-right:20px; 
 @media all and (min-width: 767px){}
-@media all and (min-width: 990px){}
+@media all and (min-width: 990px){
+    display: block;
+}
 @media all and (min-width: 1175px){
 width: 7%; 
 margin-right:20px; 
@@ -131,10 +154,12 @@ margin-left:auto;
 margin-right:0;
 
 font-size: 1.6rem;
-width: 120px;
+width: 15%;
 height: 40px;
 @media all and (min-width: 767px){}
-@media all and (min-width: 990px){}
+@media all and (min-width: 990px){
+    width: 120px;
+}
 @media all and (min-width: 1175px){
 font-size: 2rem;
 width: 150px;

@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-
 const movies = createSlice({
     name: "movies",
     initialState: {
@@ -22,32 +21,11 @@ const movies = createSlice({
             state.errorMessage = "";
           },
         setInitialMovies: (state, action) => {
-            // console.log("setInitialMovies", action.payload.length);
             state = action.payload;
-            // console.log('after assignment ', state);
         },
         getNumberofPages: (state,action) =>{
             state.pages= action.payload;
-            // console.log("getNumberofPages " + action.payload);
         }
-        // addtask: (state, action) => {state.push({"task":action.payload, "open": true, "show": true})},
-        // changestat: (state,action) => {state.map((obj) => {if(obj.task===action.payload) {obj.open = !obj.open} })},
-        // deletetask: (state, action) => {for(let i=0; i<state.length; i++){
-        //     if(state[i].task === action.payload){
-        //        state.splice(i, 1)
-        //     }
-        // }},
-        // deleteAllCompleted:(state) => {for(let obj of state){
-        //     if(obj.open === false){
-        //        let index = state.indexOf(obj);
-        //        state.splice(index, 1);
-        //     }
-        // }},
-        // showAll:(state) => {state.map((obj) => { obj.show = true} )},
-        // showActive:(state) => {state.map((obj) => {obj.open? obj.show = true : obj.show = false} )},
-        // showClosed:(state) => {state.map((obj) => {obj.open? obj.show = false : obj.show = true})},
-
-
     }
 })
 export default movies.reducer;
@@ -58,59 +36,13 @@ export const {
     setInitialMovies,
     getNumberofPages
 } = movies.actions;
-// export const {getInitialTasks,addtask,changestat, deletetask,deleteAllCompleted,showAll,showActive,showClosed} = tasks.actions;
 
-export const fetchPopularMovies = ()=> async (dispatch)=> {
-    try{
-        dispatch(fetchMoviesStarted());
-        const endpoint = `https://api.themoviedb.org/3/movie/popular?api_key=8363ff1f821b3c4a310b38701890d3ba`;
-        const response = await (await fetch(endpoint)).json();
-        const data = response.results;
-        dispatch(fetchMoviesReady(convert_genreid_to_name(data)));        
-    }catch(err){
-        dispatch(fetchMoviesFailed(err.errorMessage));
-    }
-  }
-  export const fetch_NowMovies = ()=> async (dispatch)=> {
-    try{
-        dispatch(fetchMoviesStarted());
-        const endpoint = `https://api.themoviedb.org/3/movie/now_playing?api_key=8363ff1f821b3c4a310b38701890d3ba`;
-        const response = await (await fetch(endpoint)).json();
-        const data = response.results;
-        dispatch(fetchMoviesReady(convert_genreid_to_name(data)));       
-    }catch(err){
-        dispatch(fetchMoviesFailed(err.errorMessage));
-    }
-  }
-  export const fetch_top_rated = ()=> async (dispatch)=> {
-    try{
-        dispatch(fetchMoviesStarted());
-        const endpoint = `https://api.themoviedb.org/3/movie/top_rated?api_key=8363ff1f821b3c4a310b38701890d3ba`;
-        const response = await (await fetch(endpoint)).json();
-        const data = response.results;
-        dispatch(fetchMoviesReady(convert_genreid_to_name(data)));      
-    }catch(err){
-        dispatch(fetchMoviesFailed(err.errorMessage));
-    }
-  }
-  export const fetch_upcoming = ()=> async (dispatch)=> {
-    try{
-        dispatch(fetchMoviesStarted());
-        const endpoint = `https://api.themoviedb.org/3/movie/upcoming?api_key=8363ff1f821b3c4a310b38701890d3ba`;
-        const response = await (await fetch(endpoint)).json();
-        const data = response.results;
-        dispatch(fetchMoviesReady(convert_genreid_to_name(data)));       
-    }catch(err){
-        dispatch(fetchMoviesFailed(err.errorMessage));
-    }
-  }
   export const fetch_movie = (category, page)=> async (dispatch)=> {
     try{
         dispatch(fetchMoviesStarted());
         let endpoint = `https://api.themoviedb.org/3/movie/${category}?api_key=8363ff1f821b3c4a310b38701890d3ba&page=${page}`;
         const response = await (await fetch(endpoint)).json();
         const data = response.results;
-        // console.log("data",data);
         dispatch(fetchMoviesReady(convert_genreid_to_name(data)));
         dispatch(getNumberofPages(response.total_pages));
     }catch(err){
@@ -118,7 +50,6 @@ export const fetchPopularMovies = ()=> async (dispatch)=> {
     }
   }
 
-  
   export const search_movie = (seritem)=> async (dispatch)=> {
     try{
         dispatch(fetchMoviesStarted());
@@ -234,9 +165,53 @@ export const fetchPopularMovies = ()=> async (dispatch)=> {
       else{
         movie.poster_path = `https://image.tmdb.org/t/p/w300${movie.poster_path}`;
       }
+      movie.vote_average = Math.round(movie.vote_average * 10) / 10;
     }
     // console.log(data);
     return data;
   }
-  // export function choose_movie()=>
 
+  // export const fetchPopularMovies = ()=> async (dispatch)=> {
+//     try{
+//         dispatch(fetchMoviesStarted());
+//         const endpoint = `https://api.themoviedb.org/3/movie/popular?api_key=8363ff1f821b3c4a310b38701890d3ba`;
+//         const response = await (await fetch(endpoint)).json();
+//         const data = response.results;
+//         dispatch(fetchMoviesReady(convert_genreid_to_name(data)));        
+//     }catch(err){
+//         dispatch(fetchMoviesFailed(err.errorMessage));
+//     }
+//   }
+//   export const fetch_NowMovies = ()=> async (dispatch)=> {
+//     try{
+//         dispatch(fetchMoviesStarted());
+//         const endpoint = `https://api.themoviedb.org/3/movie/now_playing?api_key=8363ff1f821b3c4a310b38701890d3ba`;
+//         const response = await (await fetch(endpoint)).json();
+//         const data = response.results;
+//         dispatch(fetchMoviesReady(convert_genreid_to_name(data)));       
+//     }catch(err){
+//         dispatch(fetchMoviesFailed(err.errorMessage));
+//     }
+//   }
+//   export const fetch_top_rated = ()=> async (dispatch)=> {
+//     try{
+//         dispatch(fetchMoviesStarted());
+//         const endpoint = `https://api.themoviedb.org/3/movie/top_rated?api_key=8363ff1f821b3c4a310b38701890d3ba`;
+//         const response = await (await fetch(endpoint)).json();
+//         const data = response.results;
+//         dispatch(fetchMoviesReady(convert_genreid_to_name(data)));      
+//     }catch(err){
+//         dispatch(fetchMoviesFailed(err.errorMessage));
+//     }
+//   }
+//   export const fetch_upcoming = ()=> async (dispatch)=> {
+//     try{
+//         dispatch(fetchMoviesStarted());
+//         const endpoint = `https://api.themoviedb.org/3/movie/upcoming?api_key=8363ff1f821b3c4a310b38701890d3ba`;
+//         const response = await (await fetch(endpoint)).json();
+//         const data = response.results;
+//         dispatch(fetchMoviesReady(convert_genreid_to_name(data)));       
+//     }catch(err){
+//         dispatch(fetchMoviesFailed(err.errorMessage));
+//     }
+//   }

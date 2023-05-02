@@ -33,19 +33,20 @@ ResetFullDetails: (state, action) => {
     updateMovies: (state, action) => {
         state.movie = action.payload;
     },
-    // getMovieDetails: (state, action) => {
-    //     state.fullDetailsMovie = action.payload;
-    // },
     
     addMovieToState: (state, action) => {
         state.movie.push(action.payload);
     },
     deletemovie: (state, action) => {
+      // console.log("mypayload:", action.payload, "movies:", state.movie);
       for(let i=0; i<state.movie.length; i++){
+        // console.log("now checking movie:", state.movie[i]);
         if(state.movie[i] === action.payload){
+          // console.log("equal?","i movie:", state.movie[i],  "mypayload:", action.payload);
           state.movie.splice(i,1);
         }
       }
+      // console.log("now movies:", state.movie);
     },   
     fetchMoviesStarted: (state) => {
         state.isLoading = true;
@@ -59,22 +60,6 @@ ResetFullDetails: (state, action) => {
 export default user.reducer;
 export const {updateMoviefulldetauls,ResetFullDetails,updateName, updateMail,updateMovies,addMovieToState, deletemovie,fetchMoviesStarted,fetchMoviesFailed} = user.actions;
 
-// export const fetchUserMovies = (moviearray) => async (dispatch)=> {
-//     try{
-//         dispatch(fetchMoviesStarted());
-//         let tempArr= [];
-//         for(var i=0; i<moviearray.length; i++){
-//             let endpoint = `https://api.themoviedb.org/3/movie/${moviearray[i]}?api_key=8363ff1f821b3c4a310b38701890d3ba&language=en-US`;
-//             let response = await (await fetch(endpoint)).json();
-//             tempArr.push(response);
-//             console.log("temp array now:",tempArr);
-//             dispatch(updateMoviefulldetauls(response));
-//         }    
-//     }
-//     catch(err){
-//         dispatch(fetchMoviesFailed(err.errorMessage));
-//     }
-//   }
 export const fetchUserMovies = (movieID) => async (dispatch)=> {
   try{
       dispatch(fetchMoviesStarted());
@@ -118,7 +103,6 @@ export const addNewMovie = (movieID) => async (dispatch)=> {
     ////
     movie.vote_average = Math.round(movie.vote_average * 10) / 10;
   // }
-  // console.log(data);
   return movie;
 }
 

@@ -9,6 +9,7 @@ const amovie = createSlice({
         recommendation:{},
         images:{},
         galleryIndex:0,
+        bgImg: '',
         isLoading: false,
         errorMessage: '',
     },
@@ -28,17 +29,14 @@ const amovie = createSlice({
             state.actors_list = action.payload;
           },
           fetchRecommendation(state, action) {
-            // console.log("recomss", action.payload);
             state.recommendation = action.payload;
           },
           fetchImagesReady(state, action) {
-            console.log("images:",action.payload);
+            // console.log("images:",action.payload);
             state.images = action.payload;
           },
         setInitialMovies: (state, action) => {
-            // console.log("setInitialMovies", action.payload.length);
             state = action.payload;
-            // console.log('after assignment ', state);
         },
         updateMovieId:  (state, action) => {
           state.movieId = action.payload;
@@ -52,11 +50,14 @@ const amovie = createSlice({
         showActors(state, action) {
           state.actors_list = action.payload;
         },
+        generateBGIMG(state, action) {
+          state.bgImg = action.payload;
+        },
       
     }
 })
 export default amovie.reducer;
-export const { 
+export const { generateBGIMG,
     fetchMoviesStarted,
     fetchMoviesFailed,
     fetchMoviesReady,showActors,
@@ -72,6 +73,7 @@ export const {
         let endpoint = `https://api.themoviedb.org/3/movie/${newmovieId}?api_key=8363ff1f821b3c4a310b38701890d3ba&language=en-US`;
         const response = await (await fetch(endpoint)).json();
         dispatch(fetchMoviesReady(convertGenres_and_checkPoster(response)));
+        dispatch(generateBGIMG(response.backdrop_path));
         //the actors api call
         let actors_endpoint = `https://api.themoviedb.org/3/movie/${newmovieId}/credits?api_key=8363ff1f821b3c4a310b38701890d3ba`;
         const actors_response = await (await fetch(actors_endpoint)).json();
@@ -80,14 +82,11 @@ export const {
         //add recommand api call
         let recommendation_endpoint = `https://api.themoviedb.org/3/movie/551/recommendations?api_key=8363ff1f821b3c4a310b38701890d3ba`;
         let recommendation_response = await (await fetch(recommendation_endpoint)).json();
-        // let recommendation_fixed = recommendation_response.results;
-        // let recommendation_fixed_again = fix_recomss_images(recommendation_fixed);
         dispatch(fetchRecommendation(fix_recomss_images(recommendation_response)));
         //the images api call
         let images_endpoint = `https://api.themoviedb.org/3/movie/${newmovieId}/images?api_key=8363ff1f821b3c4a310b38701890d3ba`;
         const images_response = await (await fetch(images_endpoint)).json();
         dispatch(fetchImagesReady(fix_images_gallery(images_response.backdrops)));
-        // dispatch(fetchImagesReady(images_response));
        
         
 
@@ -106,15 +105,17 @@ export const {
       movie.release_date= `${newDateArr[2]}/${newDateArr[1]}/${newDateArr[0]}`;
       movie.runtime= `${Math.floor(movie.runtime/60)}h ${movie.runtime%60}m`;
       movie.budget= addCommas(movie.budget);
+      movie.vote_average = Math.round(movie.vote_average * 10) / 10;
       if(movie.poster_path === null){
         movie.poster_path = `https://edit.org/images/cat/movies-short-films-posters-big-2021083116.jpg`;
         movie.backdrop_path = `https://edit.org/images/cat/movies-short-films-posters-big-2021083116.jpg`;
       }
       else{
         movie.poster_path = `https://image.tmdb.org/t/p/w300${movie.poster_path}`;
-        movie.backdrop_path = `https://image.tmdb.org/t/p/w300${movie.backdrop_path}`;
+        movie.backdrop_path = `https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`;
       }
-    // console.log(data);
+
+
     return movie;
   }
   export function fix_actors_images(actors) {
@@ -202,6 +203,7 @@ export function fix_recomss_images(recommendation) {
     else{
       rec.poster_path= `https://image.tmdb.org/t/p/w300${rec.poster_path}`;
     }
+    rec.vote_average = Math.round(rec.vote_average * 10) / 10;
   }
   return recommendation;
 }
@@ -212,7 +214,7 @@ export function fix_images_gallery(images) {
       img.file_path= `https://edit.org/images/cat/movies-short-films-posters-big-2021083116.jpg`;
     }
     else{
-      img.file_path= `https://image.tmdb.org/t/p/w300${img.file_path}`;
+      img.file_path= `https://image.tmdb.org/t/p/w500${img.file_path}`;
     }
   }
   return images;

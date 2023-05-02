@@ -1,16 +1,16 @@
-import styled from "styled-components";
-import { useSelector, useDispatch } from 'react-redux';
-import {  useState, useRef, useEffect } from 'react'
+import {useSelector} from 'react-redux';
+import {useState, useEffect } from 'react'
 import {useNavigate } from 'react-router-dom';
 import {Container, Form, Input, Button, Tag, Headline, Background} from "../styles/registerStyle";
 import Menu from './Menu';
 
 const Register = () => {
   const navigate= useNavigate();
+
   const [name, setName] = useState('');
   const [mail, setmail] = useState('');
   const [password, setPassword] = useState('');
-  const dispatch = useDispatch();
+
   const myname = useSelector((state)=> state.user.name);
 function handleSubmit(e){
 e.preventDefault();
@@ -25,7 +25,7 @@ body: JSON.stringify({
   password,
 }),
 }) .then((res) => res.json()). then((data)=> {console.log(data, "user registered")});
-console.log(name, mail, password);
+// console.log(name, mail, password);
 }
 useEffect(() => {console.log(myname) }, []);
   return (
@@ -40,7 +40,6 @@ useEffect(() => {console.log(myname) }, []);
         <Button type="submit">Sign up</Button>
         <Tag onClick={() => { navigate(`/login`)}}>Already User? Sign In</Tag>
       </Form>
-     
     </Container>
   </Background>
  

@@ -47,6 +47,10 @@ export const Headline= styled.div`
  margin-bottom: 2rem;
 `;
 export const Background= styled.div`
- background-image: url('https://batterseapowerstation.co.uk/content/uploads/2022/08/Cinema-in-the-Power-Station-image001hero-1600x869.jpg');
+ background-image: url('src/images/background1.jpg');
  background-size: cover;
+ /* background-position: center center; */
+ background-attachment: fixed;
+ width: 100%;
+ height: 100%;
 `;
