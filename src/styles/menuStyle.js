@@ -1,5 +1,6 @@
 import styled from "styled-components";
 
+
 export const Top = styled.div` 
 /* border: 1px solid blue; */
 width: 100%;
@@ -19,15 +20,12 @@ background-color:  ${({ bg }) => bg  ? bg : bg};
 @media all and (min-width: 1175px){}
 `;
 export const Logo= styled.img`
-/* background-image: url();
-background-size: cover; */
-src: url('https://seeklogo.com/images/M/movie-time-cinema-logo-8B5BE91828-seeklogo.com.png');
 width: 10%;
 height: auto;
 cursor: pointer;
-border:1px solid blue;
+/* border:1px solid blue; */
 @media all and (min-width: 767px){
-    width: 9%;
+    width: 7%;
 }
 @media all and (min-width: 990px){}
 @media all and (min-width: 1175px){}
@@ -126,8 +124,7 @@ font-size: 2rem;
 margin-right: 20px;
 }
 `;
-export const Git = styled.div`
-background-image: url('src/images/GitHub.png');
+export const Git = styled.img`
 display: none;
 cursor: pointer;
 /* background-color: transparent; */
@@ -140,7 +137,7 @@ margin-right:20px;
     display: block;
 }
 @media all and (min-width: 1175px){
-width: 7%; 
+width: 5%; 
 margin-right:20px; 
 }
 `;

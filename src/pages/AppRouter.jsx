@@ -4,7 +4,8 @@ import Home from './Home';
 import MoviePage from './MoviePage';
 import Login from './Login';
 import Register from './Register';
-import Watchlist from './watchlist'
+import Watchlist from './watchlist';
+import ActorPage from './ActorPage';
 import Error from './Error';
 
 function AppRouter() {
@@ -12,6 +13,7 @@ function AppRouter() {
     <Routes>
       <Route path='/' element={<Home/>}/>
       <Route path='/movie/:id' element={<MoviePage/>}/>
+      <Route path='/actor/:id' element= {<ActorPage/>}/>
       <Route path='/login' element ={<Login/>}/>
       <Route path='/register' element={<Register/>}/>
       <Route path='/watchlist' element= {<Watchlist/>}/>

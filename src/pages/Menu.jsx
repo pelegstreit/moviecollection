@@ -3,6 +3,8 @@ import { search_movie, fetch_movie} from '../state/movies.slice';
 import { useSelector, useDispatch } from 'react-redux';
 import {useNavigate } from 'react-router-dom';
 import {Top, Logo, HomeButton, Search, Hello, MoviesButton, Git, Signin, Watchlist} from "../styles/menuStyle";
+import LogoImg from "../images/SiteLogo.png";
+import GitLogo from "../images/GitHub.png";
 
 const Menu = () => {
 const dispatch = useDispatch();
@@ -13,8 +15,19 @@ const dispatch = useDispatch();
   const pageNumber = useRef(1);
 
   const name = useSelector((state)=> state.user.name);
+  const mail = useSelector((state)=> state.user.mail);
   
   const [backgroundColor, setBackgroundColor] = useState('transparent');
+
+  function checkIfLogged(){
+    if(mail)
+    {
+      navigate(`/watchlist`);
+    }
+    else{
+      alert("Please log in!");
+    }
+  }
 
   useEffect(() => {
     dispatch(fetch_movie(filterStat.current, pageNumber.current));
@@ -41,6 +54,7 @@ const dispatch = useDispatch();
     })
       .then((res) => res.json())
       .then((data) => {
+        console.log(data);
        });
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -57,14 +71,14 @@ const dispatch = useDispatch();
   }
     return (
         <Top bg={backgroundColor}>
-        <Logo onClick={() => { navigate(`/`)}}/>
+        <Logo src={LogoImg} onClick={() => { navigate(`/`)}}/>
         <HomeButton>BlockBuster</HomeButton>
         <Search ref={input} onChange={update_list} placeholder="Search by a movie title"></Search>
         <Hello>Hello {name}</Hello>
-        <Watchlist onClick={() => { navigate(`/watchlist`)}}>My watch list</Watchlist>
+        <Watchlist onClick={() => { checkIfLogged()}}>My watch list</Watchlist>
         <MoviesButton onClick={() => { navigate(`/`)}}>📄 MOVIES</MoviesButton>
-        <Git onClick={() => { window.location.href ='https://github.com/pelegstreit'}}/>
-        <Signin onClick={() => { navigate(`/login`)}} >SIGN IN</Signin>
+        <Git src={GitLogo} onClick={() => { window.location.href ='https://github.com/pelegstreit'}}/>
+        <Signin onClick={() => { navigate(`/login`)}}>SIGN IN</Signin>
       </Top>
     )
 }

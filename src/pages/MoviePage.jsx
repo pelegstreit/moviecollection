@@ -1,15 +1,19 @@
-import {useRef, useEffect } from 'react'
+import {useRef, useEffect } from 'react';
 import styled from "styled-components";
 import { useSelector, useDispatch } from 'react-redux';
 import {useNavigate } from 'react-router-dom';
 import {fetchUserMovies} from "../state/user.slice";
 import { fetch_the_movie,nextImage, prevImage,fetchActorsReady,updateMovieId } from '../state/amovie.slice';
 import {Themovie,FirstLine, Wrapper, Poster, MovieName, Votes, Tagline, Watchlist, Description, Genrestitle, Genres, DetaielsLine, DetailsReleaseDate, DetailsDuration, DetailsBudget, ViewImg, Actors, ActorsTitle, ActorCard, ActorImg, ActorName, ActorRole, ShowMain, ShowAll, ArrowButton, PrevButton, NextButton, ImageWrapper, RECOMMENDATIONS, NiceTitle2, MovieCard, Rec_Poster, Title, Rec_Votes, Genere} from "../styles/MoviePageStyle";
+import { updateActorId } from '../state/actor.slice';
 import Menu from './Menu';
+import { sendMovies } from '../network/imdbNetwork';
+
 
 const MoviePage = () => {
   const dispatch = useDispatch();
   const navigate= useNavigate();
+  const {VITE_SERVER_URL} = import.meta.env;
 
   let amovie = useSelector((state) => state.amovie);
   let aMovieID= useSelector((state) => state.amovie.movieId);
@@ -18,12 +22,20 @@ const MoviePage = () => {
   const images = useSelector((state) => state.amovie.images);
   const CustomBG= useSelector((state) => state.amovie.bgImg);
   let currentActors = useSelector((state) => state.amovie.actors_list);
+  const mail = useSelector((state)=> state.user.mail);
 
   let ActorsFilter= useRef("showLead");
 
   let filtered;
   const currentImage = images[currentIndex];
 
+  const Background= styled.div`
+  background-image: url(${CustomBG});
+  background-size: cover;
+  background-attachment: fixed;
+  width: 100%;
+  height: 100%;
+ `;
 
     
   
@@ -67,15 +79,19 @@ const MoviePage = () => {
     dispatch(fetchActorsReady(updatedActorssArray));
   }
   function addToWatchList(){
-    let copyArr=userMovies.map((num)=> num);
-    copyArr.push(amovie.movieId);
-    fetch("http://localhost:3030/addmovie", {
+    // const endpoint = `${VITE_SERVER_URL}/addmovie`;
+    if(mail)
+    {
+      // console.log("I have mail")
+      console.log(window.localStorage.getItem("token"));
+
+      let copyArr=userMovies.map((num)=> num);
+      copyArr.push(amovie.movieId);
+      fetch("http://localhost:3030/addmovie", {
       method: "PUT",
       crossDomain:"true",
       headers: {
         "Content-Type": "application/json",
-        Accept: "application/json",
-        "Access-Control-Allow-Origin": "*",
       },
       body: JSON.stringify({
         token: window.localStorage.getItem("token"), movieIDObj: {"movie":copyArr}
@@ -83,10 +99,14 @@ const MoviePage = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-       });
-  };
+     
 
-   
+       });
+      // sendMovies(copyArr);
+      // alert("movie added");
+    }
+    else{alert("Please log in!");}
+  };
     useEffect(() => {
         dispatch(fetch_the_movie(amovie.movieId));
         filtered = amovie.actors_list.filter((obj) => obj.gender=== 1);      
@@ -102,10 +122,10 @@ const MoviePage = () => {
       }, [aMovieID])
  
 return (
-    <Background CustomBG={CustomBG}>
+    <Background>
       <Menu></Menu>
       <Themovie>
-      <Poster src={amovie.theMovie.poster_path} />
+      <Poster src={amovie.theMovie.poster_path}/>
       <Wrapper>
       <MovieName>{amovie.theMovie.original_title}</MovieName>
       <Votes>{amovie.theMovie.vote_average}</Votes>
@@ -138,7 +158,7 @@ return (
           amovie.actors_list?.map((actor) => {
             if(actor.show=== true) {
               return (
-            <ActorCard key={actor.id}>
+            <ActorCard key={actor.id} onClick={() => {dispatch(updateActorId(actor.id));   navigate(`/actor/${actor.id}`)}}>
             <ActorImg src={actor.profile_path} />
             <ActorName>{actor.name}</ActorName>
             <ActorRole>{actor.character}</ActorRole>
@@ -168,11 +188,3 @@ return (
 }
 
 export default MoviePage;
-
-export const Background= styled.div`
-
- background-size: cover;
- background-attachment: fixed;
- width: 100%;
- height: 100%;
-`;
